@@ -1,8 +1,10 @@
-import fetch from "node-fetch";
-import { getAccessToken } from "./spotifyAuthService.js";
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+
+import { getToken } from "./spotifyAuthService.js";
 
 export async function searchTracks(query) {
-  const token = await getAccessToken();
+  const token = await getToken();
 
   const res = await fetch(
     `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=10`,
@@ -23,4 +25,4 @@ export async function searchTracks(query) {
     songUrl: t.external_urls.spotify,
     image: t.album.images[0]?.url || null
   }));
-}
+      }
